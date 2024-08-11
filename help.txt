@@ -1,0 +1,4 @@
+https://www.youtube.com/watch?v=pmvEgZC55Cg
+
+senng email to recipients
+node .\backend\mailtrap\mailtrap.config.js
