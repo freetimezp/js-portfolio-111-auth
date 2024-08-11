@@ -1,4 +1,14 @@
 https://www.youtube.com/watch?v=pmvEgZC55Cg
 
-senng email to recipients
+send email to recipients
 node .\backend\mailtrap\mailtrap.config.js
+https://mailtrap.io/sending/domains/d76fdaa8-af80-44f3-911b-beb8f6e43173?current_tab=smtp_settings&stream=transactional
+
+
+send verify email on our own email with out check (user created in mondo db)
+if we want to sent to all recipients we need to have own server and set it in mailtrap
+
+
+try find user by verification code and expired date 
+
+
