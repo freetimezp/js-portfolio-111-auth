@@ -16,3 +16,5 @@ virefied user by check verified code in mongo db
 get Welcome letter on email 
 
 
+logout \\ clear cookie 
+
