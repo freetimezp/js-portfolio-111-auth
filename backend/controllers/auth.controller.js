@@ -1,7 +1,8 @@
 import { User } from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
+import crypto from "crypto";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
-import { sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js";
+import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail } from "../mailtrap/emails.js";
 
 export const signup = async (req, res) => {
     const { email, password, name } = req.body;
@@ -53,6 +54,7 @@ export const signup = async (req, res) => {
     }
 };
 
+
 export const verifyEmail = async (req, res) => {
     const { code } = req.body;
 
@@ -95,7 +97,6 @@ export const verifyEmail = async (req, res) => {
         return res.status(400).json({ success: false, message: error.message });
     }
 };
-
 
 
 export const login = async (req, res) => {
@@ -144,7 +145,6 @@ export const login = async (req, res) => {
 };
 
 
-
 export const logout = async (req, res) => {
     res.clearCookie("token");
 
@@ -152,3 +152,40 @@ export const logout = async (req, res) => {
 };
 
 
+export const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        //try find email in db
+        const user = await User.findOne({ email });
+
+        //email not find
+        if (!user) {
+            return res.status(400).json({ success: false, message: "Invalid credentials" });
+        }
+
+        //generate reset token
+        const resetToken = crypto.randomBytes(20).toString("hex");
+        const resetTokenExpiresAt = Date.now() + 1 * 60 * 60 * 1000; //1 hour
+
+        //collect user data
+        user.resetPasswordToken = resetToken;
+        user.resetPasswordExpiresAt = resetTokenExpiresAt;
+
+        //save user
+        await user.save();
+
+        //send email
+        await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`);
+
+        //set response for success
+        res.status(200).json({
+            success: true,
+            message: "Reset link is send, success!",
+        });
+
+    } catch (error) {
+        //console.log("error in forgot password", error.message);
+        res.status(400).json({ success: false, message: error.message });
+    }
+}
