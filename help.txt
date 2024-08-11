@@ -11,4 +11,8 @@ if we want to sent to all recipients we need to have own server and set it in ma
 
 try find user by verification code and expired date 
 
+create template Welcome letter in mailtrap
+virefied user by check verified code in mongo db
+get Welcome letter on email 
+
 
