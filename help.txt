@@ -18,3 +18,6 @@ get Welcome letter on email
 
 logout \\ clear cookie 
 
+
+login, check email in db, compare pass, save token and cookie 
+
