@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
+import LoadingSpinner from "./components/LoadingSpinner";
+
 import FloatingShape from "./components/FloatingShape";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
@@ -37,13 +39,19 @@ const RedirectAuthenticatedUser = ({ children }) => {
 };
 
 function App() {
-  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
+  const { isCheckingAuth, checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  console.log(user);
+  //console.log(user);
+
+  if (isCheckingAuth) {
+    return (
+      <LoadingSpinner />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 
