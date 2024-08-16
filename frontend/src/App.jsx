@@ -1,17 +1,20 @@
 import { useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+
 
 import LoadingSpinner from "./components/LoadingSpinner";
+
+import { useAuthStore } from "./store/authStore";
 
 import FloatingShape from "./components/FloatingShape";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
-import { Toaster } from "react-hot-toast";
-import { useAuthStore } from "./store/authStore";
 import Dashboard from "./pages/Dashboard";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 
 //protect routes that require authentication
@@ -132,6 +135,13 @@ function App() {
             <RedirectAuthenticatedUser>
               <ResetPasswordPage />
             </RedirectAuthenticatedUser>
+          }
+        />
+
+        <Route
+          path="*"
+          element={
+            <NotFoundPage />
           }
         />
       </Routes>
